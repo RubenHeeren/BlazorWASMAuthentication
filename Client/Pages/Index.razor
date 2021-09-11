@@ -1,0 +1,29 @@
+﻿@page "/"
+@using Blazored.LocalStorage
+@using Client.Providers
+@using System.Net.Http.Headers
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+@code {
+	[Inject] HttpClient HttpClient { get; set; }
+	[Inject] AuthenticationStateProvider AuthenticationStateProvider { get; set; } 
+	[Inject] ILocalStorageService LocalStorageService { get; set; }
+	protected override async Task OnInitializedAsync()
+	{
+		if (await LocalStorageService.ContainKeyAsync("bearerToken"))
+		{
+			string savedToken = await LocalStorageService.GetItemAsync<string>("bearerToken");
+
+			await ((AppAuthenticationStateProvider)AuthenticationStateProvider).SignIn();
+
+			HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", savedToken);
+
+			StateHasChanged();
+		}
+	}
+}
