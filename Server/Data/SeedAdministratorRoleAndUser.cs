@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
 namespace Server.Data;
 public static class SeedAdministratorRoleAndUser

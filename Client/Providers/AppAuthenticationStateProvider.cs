@@ -1,7 +1,11 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
+using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Client.Providers;
 
@@ -36,7 +40,7 @@ public class AppAuthenticationStateProvider : AuthenticationStateProvider
             }
 
             // Get claims from token and build authenticated user object
-            var claims = ParseClaims(jwtSecurityToken);
+            IList<Claim> claims = ParseClaims(jwtSecurityToken);
             var user = new ClaimsPrincipal(new ClaimsIdentity(claims, "jwt"));
             return new AuthenticationState(user);
         }
