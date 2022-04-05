@@ -48,6 +48,7 @@ public class UserController : ControllerBase
         };
 
         IdentityResult userIdentityResult = await _userManager.CreateAsync(identityUser, password);
+
         IdentityResult roleIdentityResult = await _userManager.AddToRoleAsync(identityUser, "Administrator");
 
         if (userIdentityResult.Succeeded == true && roleIdentityResult.Succeeded == true)
